@@ -1,15 +1,19 @@
 #Import dns.resolver 
 import dns.resolver 
+import dns.reversename
+import logging
 
 
 # '''
 # A- permet de donner l'addresse ip 
 # AAAA- permet de donner uniquement l'addrese ipv6 connecter à ce dommaine
+#MX(Mail exchange ) permet de savoir le serveur de messagerie qui responsable de l'acceptation des emaisls 
+
 
 # les enregistrements de la zone DNS inversée (reverse DNS) sont utilisés pour mapper les adresses IP aux noms de domaine associés , ce qui permet de trouver le nom de domaine d'un hôte à partir de son adresse IP.
 
   
-
+logging.basicConfig(level=logging.DEBUG)
 def reverseip_to_ptr(r_ip):
   
   try: 
@@ -25,16 +29,8 @@ def reverseip_to_ptr(r_ip):
 
 #creer une fonction qui permet d'inverser une adresse ip 
 def inv_dns(ip):
-
   print("true record...",ip)
-  
-  #diviser à partir des . puis faire la jointure en ajoutant in-addr-arpa
-  ip = ip.split(".")
-  ip = ".".join(reversed(ip)) + ".in-addr.arpa"
-
-  return ip
-  print("reverse record...",ip)
-
+  return dns.reversename.from_address(ip)
 
 #creer une fonction qui convertir un prompt de nom de domaine en addresse ip puis faire le reverse DNS 
 
@@ -44,7 +40,6 @@ def name_to_ipv4(name):
     result_ip = dns.resolver.resolve(name,"A") #pour savoir quelle addresse ip est associé à ce nom de domaine 
 
     for val in result_ip: 
-      # print("record", val.to_text())
       return val.to_text()
 
   except Exception as e:
@@ -60,6 +55,8 @@ def name_to_ipv6(name):
       
   except Exception as e: 
     print(e)
+
+
 
 
 
