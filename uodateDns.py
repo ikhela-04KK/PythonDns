@@ -11,7 +11,7 @@
 import dns.resolver 
 import dns.update 
 
-domain = "example.com"
+domain = "facebook.com"
 new_ip = "192.168.1.1"
 
 #creer un objet resolver pour interroger les serveurs DNS 
@@ -28,4 +28,5 @@ update = dns.update.Update(domain)
 update.replace(record.name, record.ttl,record.rdtype, new_ip)
 
 # Envoyer la mise à jour au serveur DNS 
+# ça ne vas passer vu que je n'ai pas les autorisations de ce systeme 
 response = dns.query.tcp(update, 'ns1.example.com')
